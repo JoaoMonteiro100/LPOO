@@ -9,7 +9,7 @@ package raiden.logic;
 
 public class Coin extends PowerUp {
 
-	private static final String IMAGE_PATH = "resources/coin.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/coin.png";
 	private int scoreIncrease;
 
 	public Coin(int posX, int posY, int scoreIncrease){

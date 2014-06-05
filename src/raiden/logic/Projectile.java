@@ -18,11 +18,5 @@ public abstract class Projectile extends Entity {
 	public Projectile(int dimX, int dimY, int posX, int posY, int damage, Allegiance a, String path){
 		super(dimX, dimY, posX, posY, 0, damage, path);
 		this.allegiance = a;
-		this.dy = -4;
 	}
-
-	public void move() {
-		 posY += dy;
-	}
-
 }

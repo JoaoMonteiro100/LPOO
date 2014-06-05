@@ -8,7 +8,7 @@ package raiden.logic;
  */
 public class Turbo extends PowerUp {
 
-	private static final String IMAGE_PATH = "resources/turbo.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/turbo.png";
 	private int speedBoost;
 
 	public Turbo(int posX, int posY, int speedBoost){

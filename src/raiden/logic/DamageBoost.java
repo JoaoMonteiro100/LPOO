@@ -9,7 +9,7 @@ package raiden.logic;
  */
 public class DamageBoost extends PowerUp {
 
-	private static final String IMAGE_PATH = "resources/damage boost.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/damage boost.png";
 	private int damageBoost;
 
 	public DamageBoost(int posX, int posY, int damageBoost){

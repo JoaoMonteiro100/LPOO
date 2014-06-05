@@ -8,7 +8,7 @@ package raiden.logic;
  */
 public class Health extends PowerUp {
 
-	private static final String IMAGE_PATH = "resources/health.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/health.png";
 	private int HP_Increase;
 
 	public Health(int posX, int posY, int HP_increase){

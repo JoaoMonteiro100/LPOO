@@ -22,7 +22,7 @@ public class Board extends JPanel implements ActionListener{
 
 	private Timer timer;
     private Ship ship;
-    final String IMAGE_PATH = "resources/background.png";
+    final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/background.png";
 	Image background;
 
     public Board() {
@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener{
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
 
-        ship = new Ship(500,100);
+        ship = new Ship(500,100,);
 
         timer = new Timer(5, this);
         timer.start();
@@ -79,11 +79,47 @@ public class Board extends JPanel implements ActionListener{
     private class TAdapter extends KeyAdapter {
 
         public void keyReleased(KeyEvent e) {
-            ship.keyReleased(e);
+        	int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_LEFT) {
+                ship.stopHorizontally();
+            }
+
+            if (key == KeyEvent.VK_RIGHT) {
+            	ship.stopHorizontally();
+            }
+
+            if (key == KeyEvent.VK_UP) {
+                ship.stopVertically();
+            }
+
+            if (key == KeyEvent.VK_DOWN) {
+            	ship.stopVertically();
+            }
         }
 
         public void keyPressed(KeyEvent e) {
-            ship.keyPressed(e);
+            int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_LEFT) {
+                ship.moveLeft();
+            }
+
+            if (key == KeyEvent.VK_RIGHT) {
+            	ship.moveRight();
+            }
+
+            if (key == KeyEvent.VK_UP) {
+            	ship.moveUp();
+            }
+
+            if (key == KeyEvent.VK_DOWN) {
+            	ship.moveDown();
+            }
+            
+            if (key == KeyEvent.VK_SPACE) {
+                ship.fire();
+            }
         }
     }
 }

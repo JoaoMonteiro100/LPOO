@@ -9,7 +9,7 @@ package raiden.logic;
  */
 public class Enemy extends Entity {
 
-	private static final String IMAGE_PATH = "resources/enemy.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/enemy.png";
 	/**
 	 * Enum que indica a dificuldade (easy, medium, hard). Dependendo dessa
 	 * dificuldade, os comportamentos dos inimigos serão diferentes.

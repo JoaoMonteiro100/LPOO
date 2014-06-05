@@ -8,7 +8,7 @@ package raiden.logic;
  */
 public class Shield extends PowerUp {
 
-	private static final String IMAGE_PATH = "resources/shield.png";
+	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/shield.png";
 	int damageReduction;
 	
 	public Shield(int posX, int posY, int damageReduction){

@@ -8,12 +8,12 @@ package raiden.logic;
  */
 public class Ray extends Projectile {
 
-	private static final String IMAGE_PATH_PLAYER1 = "resources/ray_player1.png";
-	private static final String IMAGE_PATH_PLAYER2 = "resources/ray_player2.png";
-	private static final String IMAGE_PATH_ENEMY = "resources/ray_enemy.png";
+	private static final String IMAGE_PATH_PLAYER1 = "C:/xampp/htdocs/LPOO/resources/ray_player1.png";
+	private static final String IMAGE_PATH_PLAYER2 = "C:/xampp/htdocs/LPOO/resources/ray_player2.png";
+	private static final String IMAGE_PATH_ENEMY = "C:/xampp/htdocs/LPOO/resources/ray_enemy.png";
 	
 	public Ray(int dimX, int dimY, int posX, int posY, int damage, Allegiance a){
-		super(dimX, dimY, posX, posY, damage, a, "resources/missile_" + a + ".png");
+		super(dimX, dimY, posX, posY, damage, a, "C:/xampp/htdocs/LPOO/resources/missile_" + a + ".png");
 	}
 
 	public void finalize() throws Throwable {

@@ -20,8 +20,9 @@ import raiden.logic.Projectile.Allegiance;
 
 public class Ship extends Entity {
 
-	private static final String IMAGE_PATH = "resources/ship.png";
-	private static final int baseSpeed = 5;
+	private static final String IMAGE_PATH_PLAYER1 = "C:/xampp/htdocs/LPOO/resources/ship_player1.png";
+	private static final String IMAGE_PATH_PLAYER2 = "C:/xampp/htdocs/LPOO/resources/ship_player2.png";
+	private static final int baseSpeed = 3;
 	private int boostTimer;
 	private boolean hasDamageBoost;
 	private boolean hasShield;
@@ -29,8 +30,8 @@ public class Ship extends Entity {
 	private int score;
 	private ArrayList<Projectile> projectiles;
 
-	public Ship(int HP, int baseDamage){
-		super(128, 128, 40, 60, HP, baseDamage, IMAGE_PATH);
+	public Ship(int HP, int baseDamage, Allegiance a){
+		super(128, 128, 40, 60, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/missile_" + a + ".png");
 		
 		hasDamageBoost = false;
 		hasShield = false;
@@ -51,32 +52,32 @@ public class Ship extends Entity {
 	}
 
 
-	public boolean isHasDamageBoost() {
+	public boolean hasDamageBoost() {
 		return hasDamageBoost;
 	}
 
 
-	public void setHasDamageBoost(boolean hasDamageBoost) {
+	public void acquiredDamageBoost(boolean hasDamageBoost) {
 		this.hasDamageBoost = hasDamageBoost;
 	}
 
 
-	public boolean isHasShield() {
+	public boolean hasShield() {
 		return hasShield;
 	}
 
 
-	public void setHasShield(boolean hasShield) {
+	public void acquiredShield(boolean hasShield) {
 		this.hasShield = hasShield;
 	}
 
 
-	public boolean isHasTurbo() {
+	public boolean HasTurbo() {
 		return hasTurbo;
 	}
 
 
-	public void setHasTurbo(boolean hasTurbo) {
+	public void acquiredTurbo(boolean hasTurbo) {
 		this.hasTurbo = hasTurbo;
 	}
 
@@ -86,8 +87,8 @@ public class Ship extends Entity {
 	}
 
 
-	public void setScore(int score) {
-		this.score = score;
+	public void increaseScore(int score) {
+		this.score += score;
 	}
 
 
@@ -96,8 +97,8 @@ public class Ship extends Entity {
 	}
 
 
-	public void setProjectiles(ArrayList<Projectile> projectiles) {
-		this.projectiles = projectiles;
+	public void addProjectile(Projectile projectile) {
+		this.projectiles.add(projectile);
 	}
 
 
@@ -110,52 +111,31 @@ public class Ship extends Entity {
         return image;
     }
 
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_SPACE) {
-            fire();
-        }
-
-        if (key == KeyEvent.VK_LEFT) {
-            dx = -baseSpeed;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            dx = baseSpeed;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            dy = -baseSpeed;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            dy = baseSpeed;
-        }
+    public void moveRight() {
+    	dx = baseSpeed;
+    }
+    
+    public void moveLeft() {
+    	dx = -baseSpeed;
+    }
+    
+    public void moveUp() {
+    	dy = -baseSpeed;
+    }
+    
+    public void moveDown() {
+    	dy = baseSpeed;
     }
 
     public void fire() {
         projectiles.add(new Missile(posX + (dimX/2), posY, damage, Allegiance.PLAYER1));
     }
 
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
-        }
-
-        if (key == KeyEvent.VK_UP) {
-            dy = 0;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
-        }
+    public void stopHorizontally() {
+    	dx = 0;
+    }
+    
+    public void stopVertically() {
+    	dy = 0;
     }
 }
