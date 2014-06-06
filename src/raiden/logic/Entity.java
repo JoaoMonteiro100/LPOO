@@ -4,6 +4,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Representa todas as entidades do jogo, que têm em comum propriedades físicas
  * (posição, dimensões, velocidade, direção), bem como HP (hit points, ou vida),
@@ -16,6 +18,7 @@ import javax.swing.ImageIcon;
 
 public abstract class Entity {
 
+	protected Allegiance allegiance;
 	protected int damage;
 	protected int dimX;
 	protected int dimY;
@@ -34,7 +37,7 @@ public abstract class Entity {
 		LEFT, RIGHT, UP, DOWN, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT
 	}
 	
-	public Entity(int dimX, int dimY, int posX, int posY, int HP, int baseDamage, String sprite){
+	public Entity(int dimX, int dimY, int posX, int posY, int HP, int baseDamage, String sprite, Allegiance a){
 		this.isDead = false;
 		this.speed = 1;
 		this.direction = Direction.UP;
@@ -50,6 +53,7 @@ public abstract class Entity {
 		this.sprite = sprite;
 		ImageIcon ii = new ImageIcon(sprite);
 		image = ii.getImage();
+		this.allegiance = a;
 	}
 
 	public int getDamage() {

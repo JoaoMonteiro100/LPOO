@@ -1,5 +1,7 @@
 package raiden.logic;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Naves espaciais inimigas, com a capacidade de lançar projéteis e se
  * movimentarem.
@@ -10,15 +12,10 @@ package raiden.logic;
 public class Enemy extends Entity {
 
 	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/enemy.png";
-	/**
-	 * Enum que indica a dificuldade (easy, medium, hard). Dependendo dessa
-	 * dificuldade, os comportamentos dos inimigos serão diferentes.
-	 */
 	private int AI_level;
-	public Level m_Level;
 
 	public Enemy(int dimX, int dimY, int posX, int posY, int HP, int baseDamage){
-		super(dimX, dimY, posX, posY, HP, baseDamage, IMAGE_PATH);
+		super(dimX, dimY, posX, posY, HP, baseDamage, IMAGE_PATH, Allegiance.ENEMY);
 	}
 
 	public void finalize() throws Throwable {

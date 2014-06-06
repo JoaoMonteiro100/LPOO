@@ -1,5 +1,7 @@
 package raiden.logic;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Corpo com as propriedades de Entidade. Não pode lançar projéteis. Serve para
  * atrapalhar o jogador, uma vez que ao chocar com este lhe causa dano.
@@ -13,7 +15,7 @@ public class Asteroid extends Entity {
 	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/asteroid.png";
 
 	public Asteroid(int dimX, int dimY, int posX, int posY, int HP){
-		super(dimX, dimY, posX, posY, HP, 0, IMAGE_PATH);
+		super(dimX, dimY, posX, posY, HP, 0, IMAGE_PATH, Allegiance.ENEMY);
 	}
 
 	public void finalize() throws Throwable {

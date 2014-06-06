@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import raiden.logic.Missile;
+import raiden.logic.Game.Allegiance;
+import raiden.logic.Projectile;
 import raiden.logic.Ship;
 
 public class Board extends JPanel implements ActionListener{
@@ -32,7 +34,7 @@ public class Board extends JPanel implements ActionListener{
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
 
-        ship = new Ship(500,100,);
+        ship = new Ship(500,100,Allegiance.PLAYER1);
 
         timer = new Timer(5, this);
         timer.start();
@@ -62,13 +64,13 @@ public class Board extends JPanel implements ActionListener{
 
 
     public void actionPerformed(ActionEvent e) {
-        ArrayList ms = ship.getProjectiles();
+        ArrayList projectiles = ship.getProjectiles();
 
-        for (int i = 0; i < ms.size(); i++) {
-            Missile m = (Missile) ms.get(i);
-            if (!m.isDead()) 
-                m.move();
-            else ms.remove(i);
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile p = (Projectile) projectiles.get(i);
+            if (!p.isDead()) 
+                p.move();
+            else projectiles.remove(i);
         }
 
         ship.move();
@@ -78,23 +80,33 @@ public class Board extends JPanel implements ActionListener{
 
     private class TAdapter extends KeyAdapter {
 
+    	private boolean shooting;
+    	
         public void keyReleased(KeyEvent e) {
         	int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_LEFT) {
+            if (key == KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
                 ship.stopHorizontally();
             }
 
-            if (key == KeyEvent.VK_RIGHT) {
+            if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_LEFT) {
             	ship.stopHorizontally();
             }
 
-            if (key == KeyEvent.VK_UP) {
+            if (key == KeyEvent.VK_UP && key != KeyEvent.VK_DOWN) {
                 ship.stopVertically();
             }
 
-            if (key == KeyEvent.VK_DOWN) {
+            if (key == KeyEvent.VK_DOWN && key != KeyEvent.VK_UP) {
             	ship.stopVertically();
+            }
+            
+            if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
+                shooting = false;
+            }
+            
+            if (shooting) {
+            	ship.fire();
             }
         }
 
@@ -118,7 +130,11 @@ public class Board extends JPanel implements ActionListener{
             }
             
             if (key == KeyEvent.VK_SPACE) {
-                ship.fire();
+                shooting = true;
+            }
+            
+            if (shooting) {
+            	ship.fire();
             }
         }
     }

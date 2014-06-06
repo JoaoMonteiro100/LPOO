@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Tipo de míssil tradicional, intercalado.
  * @author João

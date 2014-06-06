@@ -1,5 +1,7 @@
 package raiden.logic;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Projétil. Pode ser enviado por jogadores ou inimigos. A variável "allegiance"
  * determina a quem pertence o projétil (jogador 1, jogador 2, ou inimigos).
@@ -9,14 +11,11 @@ package raiden.logic;
  */
 public abstract class Projectile extends Entity {
 
-	private Allegiance allegiance;
-	
-	public enum Allegiance {
-		PLAYER1, PLAYER2, ENEMY
+	public Projectile(int dimX, int dimY, int posX, int posY, int damage, Allegiance a, String path){
+		super(dimX, dimY, posX, posY, 0, damage, path,a);
 	}
 
-	public Projectile(int dimX, int dimY, int posX, int posY, int damage, Allegiance a, String path){
-		super(dimX, dimY, posX, posY, 0, damage, path);
-		this.allegiance = a;
+	public void move() {
+	
 	}
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import raiden.logic.Projectile.Allegiance;
+import raiden.logic.Game.Allegiance;
 
 /**
  * Representa o jogador. Contém um contador do boost (apenas pode ter um boost de
@@ -31,7 +31,7 @@ public class Ship extends Entity {
 	private ArrayList<Projectile> projectiles;
 
 	public Ship(int HP, int baseDamage, Allegiance a){
-		super(128, 128, 40, 60, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/missile_" + a + ".png");
+		super(128, 128, 40, 60, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/ship_" + a + ".png", a);
 		
 		hasDamageBoost = false;
 		hasShield = false;
@@ -128,7 +128,7 @@ public class Ship extends Entity {
     }
 
     public void fire() {
-        projectiles.add(new Missile(posX + (dimX/2), posY, damage, Allegiance.PLAYER1));
+        projectiles.add(new Missile(posX + (dimX/2), posY, damage, allegiance));
     }
 
     public void stopHorizontally() {

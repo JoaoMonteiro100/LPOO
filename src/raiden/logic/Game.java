@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class Game {
 
+	public enum Allegiance {
+		PLAYER1, PLAYER2, ENEMY
+	}
 	public ArrayList<Level> levels;
 	
 	public Game(GameConfigurations gconfigs) {

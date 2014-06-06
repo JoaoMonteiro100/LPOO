@@ -1,5 +1,7 @@
 package raiden.logic;
 
+import raiden.logic.Game.Allegiance;
+
 /**
  * Tipo de míssil em linha reta, ininterrupto.
  * @author João
