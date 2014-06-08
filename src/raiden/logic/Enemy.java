@@ -1,5 +1,9 @@
 package raiden.logic;
 
+import java.awt.Image;
+import java.awt.Rectangle;
+
+import javax.swing.ImageIcon;
 import raiden.logic.Game.Allegiance;
 
 /**
@@ -15,8 +19,21 @@ public class Enemy extends Entity {
 	private int AI_level;
 
 	public Enemy(int dimX, int dimY, int posX, int posY, int HP, int baseDamage){
-		super(dimX, dimY, posX, posY, HP, baseDamage, IMAGE_PATH, Allegiance.ENEMY);
+		super(posX, posY, HP, baseDamage, IMAGE_PATH, Allegiance.ENEMY);
+		
+        dimX = image.getWidth(null);
+        dimY = image.getHeight(null);
+        visible = true;
+        this.posX = posX;
+        this.posY = posY;
+		
 	}
+	
+	public void move() {
+        if (posY > 1125) //achar o limite superior
+            posY = 0;
+        posY += 1;
+    }
 
 	public void finalize() throws Throwable {
 		super.finalize();

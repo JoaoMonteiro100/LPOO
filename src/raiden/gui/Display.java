@@ -4,16 +4,18 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import raiden.logic.*;
-
 public class Display extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Display() {
 
         add(new Board());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setSize(800, 600);
         Toolkit tk = Toolkit.getDefaultToolkit();
         int xSize = ((int) tk.getScreenSize().getWidth());  
         int ySize = ((int) tk.getScreenSize().getHeight());  

@@ -1,10 +1,8 @@
 package raiden.logic;
 
 import java.awt.Image;
-import java.awt.event.KeyEvent;
+import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
 
 import raiden.logic.Game.Allegiance;
 
@@ -31,13 +29,14 @@ public class Ship extends Entity {
 	private ArrayList<Projectile> projectiles;
 
 	public Ship(int HP, int baseDamage, Allegiance a){
-		super(128, 128, 40, 60, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/ship_" + a + ".png", a);
+		super(0, 0, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/ship_" + a + ".png", a);
 		
 		hasDamageBoost = false;
 		hasShield = false;
 		hasTurbo = false;
 		score = 0;
 		boostTimer = 0;
+		visible = true;
 		
 		projectiles = new ArrayList<Projectile>();
 	}

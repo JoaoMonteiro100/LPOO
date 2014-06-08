@@ -1,6 +1,7 @@
 package raiden.logic;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -32,20 +33,19 @@ public abstract class Entity {
 	protected int dy;
 	protected String sprite;
 	protected Image image;
+	protected boolean visible;
 
 	public enum Direction {
 		LEFT, RIGHT, UP, DOWN, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT
 	}
 	
-	public Entity(int dimX, int dimY, int posX, int posY, int HP, int baseDamage, String sprite, Allegiance a){
+	public Entity(int posX, int posY, int HP, int baseDamage, String sprite, Allegiance a){
 		this.isDead = false;
 		this.speed = 1;
 		this.direction = Direction.UP;
 		this.dx = 0;
 		this.dy = 0;
-		
-		this.dimX = dimX;
-		this.dimY = dimY;
+	
 		this.posX = posX;
 		this.posY = posY;
 		this.HP = HP;
@@ -53,6 +53,8 @@ public abstract class Entity {
 		this.sprite = sprite;
 		ImageIcon ii = new ImageIcon(sprite);
 		image = ii.getImage();
+		this.dimX = image.getWidth(null);
+		this.dimY = image.getHeight(null);
 		this.allegiance = a;
 	}
 
@@ -159,4 +161,17 @@ public abstract class Entity {
 	public void setImage(Image image) {
 		this.image = image;
 	}
+	
+	public boolean isVisible()	{
+		return this.visible;
+	}
+	
+	public void setInvisible() 
+	{
+		this.visible = false;
+	}
+	
+	public Rectangle getBounds() {
+        return new Rectangle(posX, posY, dimX, dimY);
+    }
 }

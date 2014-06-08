@@ -15,7 +15,7 @@ public class Asteroid extends Entity {
 	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/asteroid.png";
 
 	public Asteroid(int dimX, int dimY, int posX, int posY, int HP){
-		super(dimX, dimY, posX, posY, HP, 0, IMAGE_PATH, Allegiance.ENEMY);
+		super(posX, posY, HP, 0, IMAGE_PATH, Allegiance.ENEMY);
 	}
 
 	public void finalize() throws Throwable {
