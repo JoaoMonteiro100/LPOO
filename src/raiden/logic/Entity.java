@@ -33,7 +33,6 @@ public abstract class Entity {
 	protected int dy;
 	protected String sprite;
 	protected Image image;
-	protected boolean visible;
 
 	public enum Direction {
 		LEFT, RIGHT, UP, DOWN, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT
@@ -102,8 +101,8 @@ public abstract class Entity {
 		return isDead;
 	}
 
-	public void setDead(boolean isDead) {
-		this.isDead = isDead;
+	public void kill() {
+		this.isDead = true;
 	}
 
 	public int getPosX() {
@@ -160,15 +159,6 @@ public abstract class Entity {
 
 	public void setImage(Image image) {
 		this.image = image;
-	}
-	
-	public boolean isVisible()	{
-		return this.visible;
-	}
-	
-	public void setInvisible() 
-	{
-		this.visible = false;
 	}
 	
 	public Rectangle getBounds() {

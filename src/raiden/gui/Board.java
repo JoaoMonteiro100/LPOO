@@ -40,7 +40,7 @@ public class Board extends JPanel implements ActionListener{
     private final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/background.png";
 	private Image background;
 	private ArrayList<Enemy> enemys;
-	private boolean ingame;
+	private boolean gameOver;
 	private int B_WIDTH;
     private int B_HEIGHT;
 	
@@ -63,7 +63,7 @@ public class Board extends JPanel implements ActionListener{
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         
-        ingame = true;
+        gameOver = false;
 
         ship = new Ship(500,100,Allegiance.PLAYER1);
         
@@ -92,13 +92,13 @@ public class Board extends JPanel implements ActionListener{
     public void paint(Graphics g) {
         super.paint(g);
         
-        if(ingame)
+        if(!gameOver)
         {
         	Graphics2D g2d = (Graphics2D) g;
         
 	        g2d.drawImage(background, 0, 0, null);
 	        
-	        if(ship.isVisible())
+	        if(!ship.isDead())
             	g2d.drawImage(ship.getImage(), ship.getPosX(), ship.getPosY(), this);
 	        
 	        ArrayList<Projectile> ms = ship.getProjectiles();
@@ -110,7 +110,7 @@ public class Board extends JPanel implements ActionListener{
 	        
 	        for (int i = 0; i < enemys.size(); i++) {
                 Enemy e = (Enemy)enemys.get(i);
-                if (e.isVisible())
+                if (!e.isDead())
                     g2d.drawImage(e.getImage(), e.getPosX(), e.getPosY(), this);
             }
 	        
@@ -137,7 +137,7 @@ public class Board extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	
     	if (enemys.size()==0) 
-            ingame = false;
+            gameOver = true;
             
         ArrayList<Projectile> projectiles = ship.getProjectiles();
 
@@ -150,7 +150,7 @@ public class Board extends JPanel implements ActionListener{
         
         for (int i = 0; i < enemys.size(); i++) {
             Enemy en = (Enemy) enemys.get(i);
-            if (en.isVisible()) 
+            if (!en.isDead()) 
                 en.move();
             else enemys.remove(i);
         }
@@ -161,17 +161,17 @@ public class Board extends JPanel implements ActionListener{
     }
     
     public void checkCollisions() {
-
         Rectangle r3 = ship.getBounds();
-
+        
+        //Ship with enemy
         for (int j = 0; j<enemys.size(); j++) {
             Enemy e = (Enemy) enemys.get(j);
             Rectangle r2 = e.getBounds();
 
             if (r3.intersects(r2)) {
-                ship.setInvisible();
-                e.setInvisible();
-                ingame = false;
+                ship.kill();
+                e.kill();
+                gameOver = true;
             }
         }
 
@@ -187,8 +187,8 @@ public class Board extends JPanel implements ActionListener{
                 Rectangle r2 = a.getBounds();
 
                 if (r1.intersects(r2)) {
-                    m.setInvisible();
-                    a.setInvisible();
+                    m.kill();
+                    a.kill();
                 }
             }
         }
@@ -228,22 +228,34 @@ public class Board extends JPanel implements ActionListener{
         }
 
         public void keyPressed(KeyEvent e) {
+        	Toolkit tk = Toolkit.getDefaultToolkit();
+            int xSize = ((int) tk.getScreenSize().getWidth());  
+            int ySize = ((int) tk.getScreenSize().getHeight());  
+            
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_LEFT) {
-                ship.moveLeft();
+            	if (ship.getPosX() >= 0) {
+            		ship.moveLeft();
+            	}
             }
 
             if (key == KeyEvent.VK_RIGHT) {
-            	ship.moveRight();
+            	if (ship.getPosX() <= xSize) {
+            		ship.moveRight();
+            	}
             }
 
             if (key == KeyEvent.VK_UP) {
-            	ship.moveUp();
+            	if (ship.getPosY() >= 0) {
+            		ship.moveUp();
+            	}
             }
 
             if (key == KeyEvent.VK_DOWN) {
+            	if (ship.getPosY() < ySize) {
             	ship.moveDown();
+            	}
             }
             
             if (key == KeyEvent.VK_SPACE) {

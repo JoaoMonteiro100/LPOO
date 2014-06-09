@@ -23,7 +23,6 @@ public class Enemy extends Entity {
 		
         dimX = image.getWidth(null);
         dimY = image.getHeight(null);
-        visible = true;
         this.posX = posX;
         this.posY = posY;
 		

@@ -2,6 +2,7 @@ package raiden.logic;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import raiden.logic.Game.Allegiance;
@@ -36,7 +37,6 @@ public class Ship extends Entity {
 		hasTurbo = false;
 		score = 0;
 		boostTimer = 0;
-		visible = true;
 		
 		projectiles = new ArrayList<Projectile>();
 	}
@@ -102,8 +102,28 @@ public class Ship extends Entity {
 
 
     public void move() {
+    	Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = ((int) tk.getScreenSize().getWidth());  
+        int ySize = ((int) tk.getScreenSize().getHeight());  
+        
         this.posX += dx * this.speed;
         this.posY += dy * this.speed;
+        
+    	if(posX < 0) {
+    		dx = 0;
+    		posX = 0;
+    	}
+    	if(posX > xSize-dimX) {
+    		dx = 0;
+    		posX = xSize-dimX;
+    	}
+    	if(posY < 0) {
+    		dy = 0;
+    	}
+    	if(posY > ySize-dimY) {
+    		dy = 0;
+    		posY = ySize-dimY;
+    	}
     }
 
     public Image getImage() {
