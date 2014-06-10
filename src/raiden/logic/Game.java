@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class Game {
 	private Ship player1 = null;
 	private Ship player2 = null;
-	private ArrayList<Enemy> mobs;
-	private ArrayList<Asteroid> obstacles;
-	private ArrayList<PowerUp> boosts;
+	private ArrayList<Enemy> mobs = new ArrayList<Enemy>();
+	private ArrayList<Asteroid> obstacles = new ArrayList<Asteroid>();
+	private ArrayList<PowerUp> boosts = new ArrayList<PowerUp>();
 	private boolean gameOver = false;
 	private boolean victory = false;
 	
@@ -24,15 +24,8 @@ public class Game {
 	}
 	
 	private int[][] pos = { 
-		    {2000, 29}, {1900, 59}, {1380, 89},
-		    {780, 109}, {580, 139}, {680, 239}, 
-		    {790, 259}, {760, 50}, {790, 150},
-		    {980, 209}, {560, 45}, {510, 70},
-		    {930, 159}, {590, 80}, {530, 60},
-		    {940, 59}, {990, 30}, {920, 200},
-		    {900, 259}, {660, 50}, {540, 90},
-		    {810, 220}, {860, 20}, {740, 180},
-		    {820, 128}, {490, 170}, {700, 30}
+		    
+		    {0,0}
 		};
 	
 	public Game(GameConfigurations gconfigs) {
@@ -41,6 +34,9 @@ public class Game {
 		Toolkit tk = Toolkit.getDefaultToolkit();
         int xSize = ((int) tk.getScreenSize().getWidth());  
         int ySize = ((int) tk.getScreenSize().getHeight());
+        
+        player1 = new Ship(1200, 100, 0, 0, Allegiance.PLAYER1);
+        player2 = new Ship(1300, 600, 0, 0, Allegiance.PLAYER1);
         
         if(gconfigs.getNumberOfPlayers() == 1) {
         	player1.setPosX(xSize/2);

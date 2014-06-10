@@ -16,6 +16,7 @@ import java.util.ArrayList;
 //import java.util.concurrent.BlockingQueue;
 
 
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -29,6 +30,10 @@ import raiden.logic.Ship;
 
 public class Board extends JPanel implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Game game;
     private final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/background.png";
 	private Image background;
@@ -135,11 +140,11 @@ public class Board extends JPanel implements ActionListener{
         if(game.getPlayer2() != null) {
         	ArrayList<Projectile> projectiles2 = game.getPlayer2().getProjectiles();
 
-            for (int i = 0; i < projectiles.size(); i++) {
-                Projectile p = (Projectile) projectiles.get(i);
+            for (int i = 0; i < projectiles2.size(); i++) {
+                Projectile p = (Projectile) projectiles2.get(i);
                 if (!p.isDead()) 
                     p.move();
-                else projectiles.remove(i);
+                else projectiles2.remove(i);
             }
         }
         
@@ -187,7 +192,7 @@ public class Board extends JPanel implements ActionListener{
             }
         }
 
-        ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
+       ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
 
         for (int i = 0; i < ms.size(); i++) {
             Projectile m = (Projectile) ms.get(i);
@@ -205,7 +210,7 @@ public class Board extends JPanel implements ActionListener{
             }
         }
         
-        if(game.getPlayer2() != null) {
+       if(game.getPlayer2() != null) {
         	ArrayList<Projectile> ms2 = game.getPlayer2().getProjectiles();
 
             for (int i = 0; i < ms2.size(); i++) {

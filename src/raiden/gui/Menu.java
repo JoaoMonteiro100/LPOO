@@ -6,48 +6,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
 
-import javax.swing.JToggleButton;
-import javax.swing.JMenuBar;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
-
-import java.awt.FlowLayout;
-
-import javax.swing.JTabbedPane;
 import javax.swing.JButton;
-import javax.swing.JSeparator;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuItem;
-import javax.swing.JSplitPane;
-import javax.swing.BoxLayout;
-
-import java.awt.Panel;
-import java.awt.GridLayout;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.JCheckBox;
 
 import raiden.logic.GameConfigurations;
 import raiden.logic.GameConfigurations.Difficulty;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -56,6 +31,10 @@ import java.awt.event.MouseEvent;
  */
 public class Menu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	public static void main(String[] args) {
@@ -93,7 +72,7 @@ public class Menu extends JFrame {
 		label_welcomeMessage.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(label_welcomeMessage, BorderLayout.NORTH);
 
-		final JComboBox comboBox = new JComboBox();
+		final JComboBox<String> comboBox = new JComboBox<String>();
 		final JSpinner spinner_1 = new JSpinner();
 
 		//opções
@@ -116,7 +95,7 @@ public class Menu extends JFrame {
 		panel_2.add(label_difficulty, "cell 0 2,alignx left,aligny bottom");
 
 		comboBox.setEnabled(true);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Easy", "Medium", "Hard" }));
 		panel_2.add(comboBox, "cell 0 3,growx,aligny top");
 
@@ -129,7 +108,7 @@ public class Menu extends JFrame {
 				final GameConfigurations configurations = new GameConfigurations();
 				int difficulty;
 
-				configurations.setNumberOfPlayers((int) spinner_1.getValue());
+				configurations.setNumberOfPlayers((Integer) spinner_1.getValue());
 				difficulty = comboBox.getSelectedIndex();
 				switch(difficulty) {
 				case(0):
