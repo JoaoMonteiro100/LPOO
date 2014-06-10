@@ -4,16 +4,14 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import raiden.logic.Game;
+import raiden.logic.GameConfigurations;
+
 public class Display extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public Display() {
-
-        add(new Board());
+	public Display(GameConfigurations configs) {
+		Game g = new Game(configs);
+        add(new Board(g));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -24,9 +22,5 @@ public class Display extends JFrame {
         setTitle("Raiden");
         setResizable(false);
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new Display();
     }
 }

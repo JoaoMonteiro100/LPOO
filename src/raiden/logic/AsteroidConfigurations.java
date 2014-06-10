@@ -13,13 +13,17 @@ public class AsteroidConfigurations {
 
 	private int HP;
 	private int speed;
-
-	public AsteroidConfigurations(){
-
+	
+	public int getHP() {
+		return HP;
 	}
-
-	public void finalize() throws Throwable {
-
+	public void setHP(int hP) {
+		HP = hP;
 	}
-
+	public int getSpeed() {
+		return speed;
+	}
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 }

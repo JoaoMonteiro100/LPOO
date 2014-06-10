@@ -1,5 +1,6 @@
 package raiden.logic;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 /**
@@ -12,13 +13,11 @@ import java.util.ArrayList;
 
 public class Level {
 
-	public Ship player1;
-	public Ship player2;
-	public ArrayList<Enemy> mobs;
-	public ArrayList<Asteroid> obstacles;
-	public ArrayList<PowerUp> boosts;
+	
 
-	public Level(){
-
+	public Level(LevelConfigurations configs){
+		
+		
+        
 	}
 }

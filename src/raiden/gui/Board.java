@@ -16,14 +16,12 @@ import java.util.ArrayList;
 //import java.util.concurrent.BlockingQueue;
 
 
-
-
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import raiden.logic.Enemy;
+import raiden.logic.Game;
 import raiden.logic.Missile;
 import raiden.logic.Game.Allegiance;
 import raiden.logic.Projectile;
@@ -31,43 +29,21 @@ import raiden.logic.Ship;
 
 public class Board extends JPanel implements ActionListener{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Timer timer;
-    private Ship ship;
+	private Game game;
     private final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/background.png";
 	private Image background;
-	private ArrayList<Enemy> enemys;
-	private boolean gameOver;
 	private int B_WIDTH;
     private int B_HEIGHT;
-	
-	private int[][] pos = { 
-		    {2000, 29}, {1900, 59}, {1380, 89},
-		    {780, 109}, {580, 139}, {680, 239}, 
-		    {790, 259}, {760, 50}, {790, 150},
-		    {980, 209}, {560, 45}, {510, 70},
-		    {930, 159}, {590, 80}, {530, 60},
-		    {940, 59}, {990, 30}, {920, 200},
-		    {900, 259}, {660, 50}, {540, 90},
-		    {810, 220}, {860, 20}, {740, 180},
-		    {820, 128}, {490, 170}, {700, 30}
-		};
 
-    public Board() {
+    public Board(Game g) {
 
+    	game = g;
+    	Timer timer;
+    	
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
-        
-        gameOver = false;
-
-        ship = new Ship(500,100,Allegiance.PLAYER1);
-        
-        initAliens();
 
         timer = new Timer(5, this);
         timer.start();
@@ -82,40 +58,48 @@ public class Board extends JPanel implements ActionListener{
         B_HEIGHT = getHeight();   
     }
 
-    public void initAliens() {
-        enemys = new ArrayList<Enemy>();
 
-        for (int i=0; i<pos.length; i++ ) {
-            enemys.add(new Enemy(12, 12, pos[i][0], pos[i][1], 12, 11));
-        }
-    }
     public void paint(Graphics g) {
         super.paint(g);
         
-        if(!gameOver)
+        if(!game.isGameOver())
         {
         	Graphics2D g2d = (Graphics2D) g;
         
 	        g2d.drawImage(background, 0, 0, null);
 	        
-	        if(!ship.isDead())
-            	g2d.drawImage(ship.getImage(), ship.getPosX(), ship.getPosY(), this);
+	        if(!game.getPlayer1().isDead())
+            	g2d.drawImage(game.getPlayer1().getImage(), game.getPlayer1().getPosX(), game.getPlayer1().getPosY(), this);
 	        
-	        ArrayList<Projectile> ms = ship.getProjectiles();
+	        ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
 	
 	        for (int i = 0; i < ms.size(); i++ ) {
 	            Projectile m = (Missile) ms.get(i);
 	            g2d.drawImage(m.getImage(), m.getPosX(), m.getPosY(), this);
 	        }
 	        
-	        for (int i = 0; i < enemys.size(); i++) {
-                Enemy e = (Enemy)enemys.get(i);
+	        if(game.getPlayer2() != null) {
+	        	
+	        	if(!game.getPlayer2().isDead())
+	            	g2d.drawImage(game.getPlayer2().getImage(), game.getPlayer2().getPosX(), game.getPlayer2().getPosY(), this);
+		        
+		        ArrayList<Projectile> ms2 = game.getPlayer2().getProjectiles();
+		
+		        for (int i = 0; i < ms2.size(); i++ ) {
+		            Projectile m = (Missile) ms2.get(i);
+		            g2d.drawImage(m.getImage(), m.getPosX(), m.getPosY(), this);
+		        }
+		        
+	        }
+	        
+	        for (int i = 0; i < game.getMobs().size(); i++) {
+                Enemy e = (Enemy) game.getMobs().get(i);
                 if (!e.isDead())
                     g2d.drawImage(e.getImage(), e.getPosX(), e.getPosY(), this);
             }
 	        
 	        g2d.setColor(Color.WHITE);
-            g2d.drawString("Enemys left: " + enemys.size(), 5, 15);
+            g2d.drawString("Enemys left: " + game.getMobs().size(), 5, 15);
         
         }
         else {
@@ -136,10 +120,10 @@ public class Board extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
     	
-    	if (enemys.size()==0) 
-            gameOver = true;
+    	if (game.getMobs().size()==0) 
+            game.gameOver();
             
-        ArrayList<Projectile> projectiles = ship.getProjectiles();
+        ArrayList<Projectile> projectiles = game.getPlayer1().getProjectiles();
 
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile p = (Projectile) projectiles.get(i);
@@ -148,47 +132,95 @@ public class Board extends JPanel implements ActionListener{
             else projectiles.remove(i);
         }
         
-        for (int i = 0; i < enemys.size(); i++) {
-            Enemy en = (Enemy) enemys.get(i);
-            if (!en.isDead()) 
+        if(game.getPlayer2() != null) {
+        	ArrayList<Projectile> projectiles2 = game.getPlayer2().getProjectiles();
+
+            for (int i = 0; i < projectiles.size(); i++) {
+                Projectile p = (Projectile) projectiles.get(i);
+                if (!p.isDead()) 
+                    p.move();
+                else projectiles.remove(i);
+            }
+        }
+        
+        for (int i = 0; i < game.getMobs().size(); i++) {
+            Enemy en = (Enemy) game.getMobs().get(i);
+            if (!en.isDead()) {
                 en.move();
-            else enemys.remove(i);
+            }
+            else game.removeMob(i);
         }
 
-        ship.move();
+        game.getPlayer1().move();
+        if(game.getPlayer2() != null) {
+        	game.getPlayer2().move();
+        }
         checkCollisions();
         repaint();  
     }
     
     public void checkCollisions() {
-        Rectangle r3 = ship.getBounds();
+        Rectangle p1 = game.getPlayer1().getBounds();
+        Rectangle p2 = null;
+        if(game.getPlayer2() != null) {
+        	p2 = game.getPlayer2().getBounds();
+        }
         
         //Ship with enemy
-        for (int j = 0; j<enemys.size(); j++) {
-            Enemy e = (Enemy) enemys.get(j);
-            Rectangle r2 = e.getBounds();
+        for (int j = 0; j<game.getMobs().size(); j++) {
+            Enemy e = (Enemy) game.getMobs().get(j);
+            Rectangle mob = e.getBounds();
 
-            if (r3.intersects(r2)) {
-                ship.kill();
+            if (p1.intersects(mob)) {
+            	game.getPlayer1().kill();
                 e.kill();
-                gameOver = true;
+                game.gameOver();
+            }
+            
+            if (p2 != null) {
+            	if (p2.intersects(mob)) {
+                	game.getPlayer2().kill();
+                    e.kill();
+                    game.gameOver();
+                }
+                
             }
         }
 
-        ArrayList<Projectile> ms = ship.getProjectiles();
+        ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
 
         for (int i = 0; i < ms.size(); i++) {
-            Missile m = (Missile) ms.get(i);
+            Projectile m = (Projectile) ms.get(i);
 
             Rectangle r1 = m.getBounds();
 
-            for (int j = 0; j<enemys.size(); j++) {
-                Enemy a = (Enemy) enemys.get(j);
-                Rectangle r2 = a.getBounds();
+            for (int j = 0; j<game.getMobs().size(); j++) {
+                Enemy e = (Enemy) game.getMobs().get(j);
+                Rectangle mob = e.getBounds();
 
-                if (r1.intersects(r2)) {
+                if (r1.intersects(mob)) {
                     m.kill();
-                    a.kill();
+                    e.kill();
+                }
+            }
+        }
+        
+        if(game.getPlayer2() != null) {
+        	ArrayList<Projectile> ms2 = game.getPlayer2().getProjectiles();
+
+            for (int i = 0; i < ms2.size(); i++) {
+                Projectile m = (Projectile) ms2.get(i);
+
+                Rectangle r1 = m.getBounds();
+
+                for (int j = 0; j<game.getMobs().size(); j++) {
+                    Enemy e = (Enemy) game.getMobs().get(j);
+                    Rectangle mob = e.getBounds();
+
+                    if (r1.intersects(mob)) {
+                        m.kill();
+                        e.kill();
+                    }
                 }
             }
         }
@@ -203,19 +235,19 @@ public class Board extends JPanel implements ActionListener{
         	int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
-                ship.stopHorizontally();
+                game.getPlayer1().stopHorizontally();
             }
 
             if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_LEFT) {
-            	ship.stopHorizontally();
+            	game.getPlayer1().stopHorizontally();
             }
 
             if (key == KeyEvent.VK_UP && key != KeyEvent.VK_DOWN) {
-                ship.stopVertically();
+            	game.getPlayer1().stopVertically();
             }
 
             if (key == KeyEvent.VK_DOWN && key != KeyEvent.VK_UP) {
-            	ship.stopVertically();
+            	game.getPlayer1().stopVertically();
             }
             
             if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
@@ -223,7 +255,7 @@ public class Board extends JPanel implements ActionListener{
             }
             
             if (shooting) {
-            	ship.fire();
+            	game.getPlayer1().fire();
             }
         }
 
@@ -235,26 +267,26 @@ public class Board extends JPanel implements ActionListener{
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_LEFT) {
-            	if (ship.getPosX() >= 0) {
-            		ship.moveLeft();
+            	if (game.getPlayer1().getPosX() >= 0) {
+            		game.getPlayer1().moveLeft();
             	}
             }
 
             if (key == KeyEvent.VK_RIGHT) {
-            	if (ship.getPosX() <= xSize) {
-            		ship.moveRight();
+            	if (game.getPlayer1().getPosX() <= xSize) {
+            		game.getPlayer1().moveRight();
             	}
             }
 
             if (key == KeyEvent.VK_UP) {
-            	if (ship.getPosY() >= 0) {
-            		ship.moveUp();
+            	if (game.getPlayer1().getPosY() >= 0) {
+            		game.getPlayer1().moveUp();
             	}
             }
 
             if (key == KeyEvent.VK_DOWN) {
-            	if (ship.getPosY() < ySize) {
-            	ship.moveDown();
+            	if (game.getPlayer1().getPosY() < ySize) {
+            		game.getPlayer1().moveDown();
             	}
             }
             
@@ -263,7 +295,7 @@ public class Board extends JPanel implements ActionListener{
             }
             
             if (shooting) {
-            	ship.fire();
+            	game.getPlayer1().fire();
             }
         }
     }

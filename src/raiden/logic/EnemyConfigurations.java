@@ -15,14 +15,6 @@ public class EnemyConfigurations {
 	private int HP;
 	private int missileType;
 	private int speed;
-	public Enemy m_Enemy;
 
-	public EnemyConfigurations(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
+	
 }

@@ -29,8 +29,8 @@ public class Ship extends Entity {
 	private int score;
 	private ArrayList<Projectile> projectiles;
 
-	public Ship(int HP, int baseDamage, Allegiance a){
-		super(0, 0, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/ship_" + a + ".png", a);
+	public Ship(int posX, int posY, int HP, int baseDamage, Allegiance a) {
+		super(posX, posY, HP, baseDamage, "C:/xampp/htdocs/LPOO/resources/ship_" + a + ".png", a);
 		
 		hasDamageBoost = false;
 		hasShield = false;
