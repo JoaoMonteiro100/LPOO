@@ -39,7 +39,7 @@ public class Board extends JPanel implements ActionListener{
 	private Image background;
 	private int B_WIDTH;
     private int B_HEIGHT;
-
+	
     public Board(Game g) {
 
     	game = g;
@@ -237,16 +237,16 @@ public class Board extends JPanel implements ActionListener{
 
     private class TAdapter extends KeyAdapter {
 
-    	private boolean shooting;
+    	private boolean shooting1, shooting2;
     	
         public void keyReleased(KeyEvent e) {
         	int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
+            if (key == KeyEvent.VK_A && key != KeyEvent.VK_RIGHT) {
                 game.getPlayer1().stopHorizontally();
             }
 
-            if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_LEFT) {
+            if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_A) {
             	game.getPlayer1().stopHorizontally();
             }
 
@@ -258,19 +258,43 @@ public class Board extends JPanel implements ActionListener{
             	game.getPlayer1().stopVertically();
             }
             
-            if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
-                shooting = false;
+            if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_A && key != KeyEvent.VK_RIGHT) {
+                shooting1 = false;
             }
             
-            if (shooting) {
+            if (shooting1) {
+            	game.getPlayer1().fire();
+            }
+            
+            if (key == KeyEvent.VK_A && key != KeyEvent.VK_D) {
+                game.getPlayer2().stopHorizontally();
+            }
+
+            if (key == KeyEvent.VK_D && key != KeyEvent.VK_A) {
+            	game.getPlayer2().stopHorizontally();
+            }
+
+            if (key == KeyEvent.VK_W && key != KeyEvent.VK_S) {
+            	game.getPlayer2().stopVertically();
+            }
+
+            if (key == KeyEvent.VK_S && key != KeyEvent.VK_W) {
+            	game.getPlayer2().stopVertically();
+            }
+            
+            if (key == KeyEvent.VK_Z && key != KeyEvent.VK_W && key != KeyEvent.VK_S && key != KeyEvent.VK_A && key != KeyEvent.VK_D) {
+                shooting2 = false;
+            }
+            
+            if (shooting2) {
             	game.getPlayer1().fire();
             }
         }
 
         public void keyPressed(KeyEvent e) {
         	Toolkit tk = Toolkit.getDefaultToolkit();
-            int xSize = ((int) tk.getScreenSize().getWidth());  
-            int ySize = ((int) tk.getScreenSize().getHeight());  
+            int xSize = ((int) tk.getScreenSize().getWidth());
+            int ySize = ((int) tk.getScreenSize().getHeight());
             
             int key = e.getKeyCode();
 
@@ -299,11 +323,43 @@ public class Board extends JPanel implements ActionListener{
             }
             
             if (key == KeyEvent.VK_SPACE) {
-                shooting = true;
+                shooting1 = true;
             }
             
-            if (shooting) {
+            if (shooting1) {
             	game.getPlayer1().fire();
+            }
+            
+            if (key == KeyEvent.VK_A) {
+            	if (game.getPlayer2().getPosX() >= 0) {
+            		game.getPlayer2().moveLeft();
+            	}
+            }
+
+            if (key == KeyEvent.VK_D) {
+            	if (game.getPlayer2().getPosX() <= xSize) {
+            		game.getPlayer2().moveRight();
+            	}
+            }
+
+            if (key == KeyEvent.VK_W) {
+            	if (game.getPlayer2().getPosY() >= 0) {
+            		game.getPlayer2().moveUp();
+            	}
+            }
+
+            if (key == KeyEvent.VK_S) {
+            	if (game.getPlayer2().getPosY() < ySize) {
+            		game.getPlayer2().moveDown();
+            	}
+            }
+            
+            if (key == KeyEvent.VK_Z) {
+                shooting2 = true;
+            }
+            
+            if (shooting2) {
+            	game.getPlayer2().fire();
             }
         }
     }
