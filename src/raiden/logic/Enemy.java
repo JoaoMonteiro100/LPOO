@@ -32,13 +32,19 @@ public class Enemy extends Entity {
 	}
 	
 	public void move() {
+		
 		Toolkit tk = Toolkit.getDefaultToolkit();
         int xSize = ((int) tk.getScreenSize().getWidth());  
         int ySize = ((int) tk.getScreenSize().getHeight());  
         
-        if (posY < ySize) //achar o limite superior
+        if (posY < 0) //achar o limite superior
             posY = -dimY;
         posY += 1;
+        /*
+		if (posY < 0) 
+			posY = 400;
+		posY -= 1;
+		*/
     }
 
 	public void finalize() throws Throwable {

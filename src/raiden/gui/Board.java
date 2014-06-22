@@ -82,8 +82,8 @@ public class Board extends JPanel implements ActionListener{
 	            Projectile m = (Missile) ms.get(i);
 	            g2d.drawImage(m.getImage(), m.getPosX(), m.getPosY(), this);
 	        }
-	        /*
-	        if(game.getPlayer2() != null) {
+	        
+	        if(game.getPlayer2().getPosX() != -1000) {
 	        	
 	        	if(!game.getPlayer2().isDead())
 	            	g2d.drawImage(game.getPlayer2().getImage(), game.getPlayer2().getPosX(), game.getPlayer2().getPosY(), this);
@@ -95,7 +95,7 @@ public class Board extends JPanel implements ActionListener{
 		            g2d.drawImage(m.getImage(), m.getPosX(), m.getPosY(), this);
 		        }
 		        
-	        }*/
+	        }
 	        
 	        for (int i = 0; i < game.getMobs().size(); i++) {
                 Enemy e = (Enemy) game.getMobs().get(i);
@@ -125,8 +125,8 @@ public class Board extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
     	
-    	//if (game.getMobs().size()==0) 
-            //game.gameOver();
+    	if (game.getMobs().size()==0) 
+            game.gameOver();
             
         ArrayList<Projectile> projectiles = game.getPlayer1().getProjectiles();
 
@@ -136,8 +136,8 @@ public class Board extends JPanel implements ActionListener{
                 p.move();
             else projectiles.remove(i);
         }
-        /*
-        if(game.getPlayer2() != null) {
+        
+        if(game.getPlayer2().getPosX() != -1000) {
         	ArrayList<Projectile> projectiles2 = game.getPlayer2().getProjectiles();
 
             for (int i = 0; i < projectiles2.size(); i++) {
@@ -146,7 +146,7 @@ public class Board extends JPanel implements ActionListener{
                     p.move();
                 else projectiles2.remove(i);
             }
-        }*/
+        }
         
         for (int i = 0; i < game.getMobs().size(); i++) {
             Enemy en = (Enemy) game.getMobs().get(i);
@@ -157,11 +157,11 @@ public class Board extends JPanel implements ActionListener{
         }
 
         game.getPlayer1().move();
-        /*
-        if(game.getPlayer2() != null) {
+        
+        if(game.getPlayer2().getPosX() != -1000) {
         	game.getPlayer2().move();
         }
-        */
+        
         checkCollisions();
         repaint();  
     }
@@ -170,9 +170,9 @@ public class Board extends JPanel implements ActionListener{
         Rectangle p1 = game.getPlayer1().getBounds();
         Rectangle p2 = null;
         
-        /*if(game.getPlayer2() != null) {
+        if(game.getPlayer2().getPosX() != -1000) {
         	p2 = game.getPlayer2().getBounds();
-        }*/
+        }
         
         //Ship with enemy
         for (int j = 0; j<game.getMobs().size(); j++) {
@@ -184,7 +184,7 @@ public class Board extends JPanel implements ActionListener{
                 e.kill();
                 game.gameOver();
             }
-            /*
+            
             if (p2 != null) {
             	if (p2.intersects(mob)) {
                 	game.getPlayer2().kill();
@@ -192,7 +192,7 @@ public class Board extends JPanel implements ActionListener{
                     game.gameOver();
                 }
                 
-            }*/
+            }
         }
 
        ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
@@ -212,8 +212,8 @@ public class Board extends JPanel implements ActionListener{
                 }
             }
         }
-        /*
-       if(game.getPlayer2() != null) {
+        
+       if(game.getPlayer2().getPosX() != -1000) {
         	ArrayList<Projectile> ms2 = game.getPlayer2().getProjectiles();
 
             for (int i = 0; i < ms2.size(); i++) {
@@ -231,7 +231,7 @@ public class Board extends JPanel implements ActionListener{
                     }
                 }
             }
-        }*/
+        }
     }
 
 

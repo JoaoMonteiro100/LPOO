@@ -48,19 +48,21 @@ public class Game {
         
         if(gconfigs.getNumberOfPlayers() == 1) {
         	player1.setPosX(xSize/2);
-        	player1.setPosX(ySize);
+        	player1.setPosY(ySize);
         	
         	player2.setPosX(-1000);
-        	player2.setPosX(-1000);
+        	player2.setPosY(-1000);
 
         }
         else {
         	player1.setPosX(xSize/3);
-        	player1.setPosX(ySize);
+        	player1.setPosY(ySize);
         	
         	player2.setPosX((2*xSize)/3);
-        	player2.setPosX(ySize);
+        	player2.setPosY(ySize);
         }
+        
+        initEnemies();
 	}
 	
     public void initEnemies() {
