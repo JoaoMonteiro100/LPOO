@@ -15,7 +15,7 @@ import raiden.logic.Game.Allegiance;
 public class Enemy extends Entity {
 
 	private static final String IMAGE_PATH = "C:/xampp/htdocs/LPOO/resources/enemy.png";
-	//private ArrayList<Projectile> projectiles;
+	private ArrayList<Projectile> projectiles;
 
 	public Enemy(int dimX, int dimY, int posX, int posY, int HP, int baseDamage){
 		super(posX, posY, HP, baseDamage, IMAGE_PATH, Allegiance.ENEMY);
@@ -26,6 +26,19 @@ public class Enemy extends Entity {
         this.posY = posY;
 		
 	}
+	
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
+
+
+	public void addProjectile(Projectile projectile) {
+		this.projectiles.add(projectile);
+	}
+	
+	public void fire() {
+        projectiles.add(new Missile(posX + (dimX/2), posY, damage, allegiance));
+    }
 	
 	public void move() {
 		
@@ -38,9 +51,5 @@ public class Enemy extends Entity {
         posY += 1;
 		
     }
-
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
 
 }

@@ -1,6 +1,8 @@
 package raiden.logic;
 
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 
@@ -33,4 +35,76 @@ public abstract class PowerUp {
 		ImageIcon ii = new ImageIcon(sprite);
 		image = ii.getImage();
 	}
+	
+	public boolean isTaken() {
+		return isTaken;
+	}
+	
+	public void take() {
+		isTaken = true;
+	}
+	
+	public int getDimX() {
+		return dimX;
+	}
+
+	public void setDimX(int dimX) {
+		this.dimX = dimX;
+	}
+
+	public int getDimY() {
+		return dimY;
+	}
+
+	public void setDimY(int dimY) {
+		this.dimY = dimY;
+	}
+	
+	public int getPosX() {
+		return posX;
+	}
+
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	public int getPosY() {
+		return posY;
+	}
+
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+	
+	public String getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(String sprite) {
+		this.sprite = sprite;
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
+	public Rectangle getBounds() {
+        return new Rectangle(posX, posY, dimX, dimY);
+    }
+	
+public void move() {
+		
+		Toolkit tk = Toolkit.getDefaultToolkit();
+        //int xSize = ((int) tk.getScreenSize().getWidth());  
+        int ySize = ((int) tk.getScreenSize().getHeight());  
+        
+        if (posY > ySize) //achar o limite superior
+            posY = -100;
+        posY += 1;
+		
+    }
 }

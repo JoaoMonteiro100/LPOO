@@ -3,6 +3,8 @@ package raiden.logic;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import raiden.logic.GameConfigurations.Difficulty;
+
 /**
  * Classe que representa o jogo.
  * @author João
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  */
 
 public class Game {
+	public GameConfigurations conf;
 	private Ship player1 = null;
 	private Ship player2 = null;
 	private ArrayList<Enemy> mobs = new ArrayList<Enemy>();
@@ -35,6 +38,15 @@ public class Game {
 	        {820, -128}, {490, -170}, {700, -30}*/
 		};
 	
+	private int[][] pos_boosts = { 
+	        {560, -45}, {510, -70},
+	        {930, -159}/*, {590, -80}, {530, -70},
+	        {940, -59},  {990, -30}, {920, -200},
+	        {900, -259}, {660, -50}, {540, -90},
+	        {810, -220}, {860, -20}, {740, -180},
+	        {820, -128}, {490, -170}, {700, -30}*/
+		};
+	
 	public Game(GameConfigurations gconfigs) {
 		assert gconfigs != null : "Configuration error.";
 		
@@ -42,8 +54,18 @@ public class Game {
         int xSize = ((int) tk.getScreenSize().getWidth());  
         int ySize = ((int) tk.getScreenSize().getHeight());
         
-        player1 = new Ship(1200, 100, 0, 0, Allegiance.PLAYER1);
-        player2 = new Ship(1300, 600, 0, 0, Allegiance.PLAYER2);
+        if(gconfigs.getDifficulty() == Difficulty.EASY) {
+        	player1 = new Ship(1200, 100, gconfigs.easy_playerHP, gconfigs.easy_playerDamage, Allegiance.PLAYER1);
+        	player2 = new Ship(1300, 600, gconfigs.easy_playerHP, gconfigs.easy_playerDamage, Allegiance.PLAYER2);
+        }
+        else if(gconfigs.getDifficulty() == Difficulty.MEDIUM) {
+        	player1 = new Ship(1200, 100, gconfigs.medium_playerHP, gconfigs.medium_playerDamage, Allegiance.PLAYER1);
+        	player2 = new Ship(1300, 600, gconfigs.medium_playerHP, gconfigs.medium_playerDamage, Allegiance.PLAYER2);
+        }
+        else if(gconfigs.getDifficulty() == Difficulty.HARD) {
+        	player1 = new Ship(1200, 100, gconfigs.hard_playerHP, gconfigs.hard_playerDamage, Allegiance.PLAYER1);
+        	player2 = new Ship(1300, 600, gconfigs.hard_playerHP, gconfigs.hard_playerDamage, Allegiance.PLAYER2);
+        }
         
         if(gconfigs.getNumberOfPlayers() == 1) {
         	player1.setPosX(xSize/2);
@@ -61,12 +83,20 @@ public class Game {
         	player2.setPosY(ySize);
         }
         
+        conf = gconfigs;
+        
         initEnemies();
 	}
 	
     public void initEnemies() {
         for (int i=0; i<pos.length; i++ ) {
         	mobs.add(new Enemy(12, 12, pos[i][0], pos[i][1], 12, 11));
+        }
+    }
+    
+    public void initBoosts() {
+        for (int i=0; i<pos_boosts.length; i++ ) {
+        	boosts.add((PowerUp) new Coin(pos[i][0], pos[i][1], 50));
         }
     }
 
@@ -115,6 +145,24 @@ public class Game {
 	}
 
 	public boolean isGameOver() {
+		if(player2.getPosX() == -1000) {
+			if(player1.getHP() <= 0) {
+				gameOver();
+				setVictory(false);
+			}
+		}
+		else {
+			if(player1.getHP() <= 0 && player2.getHP() <= 0) {
+				gameOver();
+				setVictory(false);
+			}
+		}
+		
+		if(mobs.isEmpty()) {
+			gameOver();
+			setVictory(true);
+		}
+			
 		return gameOver;
 	}
 
@@ -128,6 +176,10 @@ public class Game {
 
 	public void setVictory(boolean victory) {
 		this.victory = victory;
+	}
+
+	public void removeBoost(int i) {
+		this.boosts.remove(i);
 	}
 	
 

@@ -17,14 +17,21 @@ import java.util.ArrayList;
 
 
 
+
+
+import java.util.Random;
+
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import raiden.gui.EndScreen;
 import raiden.logic.Enemy;
 import raiden.logic.Game;
 import raiden.logic.Missile;
 import raiden.logic.Game.Allegiance;
+import raiden.logic.PowerUp;
 import raiden.logic.Projectile;
 import raiden.logic.Ship;
 
@@ -99,15 +106,28 @@ public class Board extends JPanel implements ActionListener{
 	        
 	        for (int i = 0; i < game.getMobs().size(); i++) {
                 Enemy e = (Enemy) game.getMobs().get(i);
-                if (!e.isDead())
+                if (!e.isDead()) {
                     g2d.drawImage(e.getImage(), e.getPosX(), e.getPosY(), this);
+                }
+            }
+	        
+	        for (int i = 0; i < game.getBoosts().size(); i++) {
+                PowerUp e = (PowerUp) game.getBoosts().get(i);
+                if (!e.isTaken()) {
+                    g2d.drawImage(e.getImage(), e.getPosX(), e.getPosY(), this);
+                }
             }
 	        
 	        g2d.setColor(Color.WHITE);
             g2d.drawString("Enemys left: " + game.getMobs().size(), 5, 15);
+            g2d.drawString("Player 1 HP: " + game.getPlayer1().getHP(), 5, 35);
+            if(game.getPlayer2().getPosX() != -1000) {
+            	g2d.drawString("Player 2 HP: " + game.getPlayer2().getHP(), 5, 55);
+            }
         
         }
         else {
+        	/*
             String msg = "Game Over";
             Font small = new Font("Helvetica", Font.BOLD, 14);
             FontMetrics metr = this.getFontMetrics(small);
@@ -116,6 +136,11 @@ public class Board extends JPanel implements ActionListener{
             g.setFont(small);
             g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2,
                          B_HEIGHT / 2);
+            */
+        	EndScreen end = new EndScreen(game.isVictory());
+        	end.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        	end.setVisible(true);
+			setVisible(false);
         }
         
         Toolkit.getDefaultToolkit().sync();
@@ -124,9 +149,6 @@ public class Board extends JPanel implements ActionListener{
 
 
     public void actionPerformed(ActionEvent e) {
-    	
-    	if (game.getMobs().size()==0) 
-            game.gameOver();
             
         ArrayList<Projectile> projectiles = game.getPlayer1().getProjectiles();
 
@@ -156,6 +178,14 @@ public class Board extends JPanel implements ActionListener{
             else game.removeMob(i);
         }
 
+        for (int i = 0; i < game.getBoosts().size(); i++) {
+        	PowerUp en = (PowerUp) game.getBoosts().get(i);
+            if (!en.isTaken()) {
+                en.move();
+            }
+            else game.removeBoost(i);
+        }
+        
         game.getPlayer1().move();
         
         if(game.getPlayer2().getPosX() != -1000) {
@@ -180,16 +210,14 @@ public class Board extends JPanel implements ActionListener{
             Rectangle mob = e.getBounds();
 
             if (p1.intersects(mob)) {
-            	game.getPlayer1().kill();
+            	game.getPlayer1().collide(game.conf.getDifficulty());
                 e.kill();
-                game.gameOver();
             }
             
             if (p2 != null) {
             	if (p2.intersects(mob)) {
-                	game.getPlayer2().kill();
+                	game.getPlayer2().collide(game.conf.getDifficulty());
                     e.kill();
-                    game.gameOver();
                 }
                 
             }

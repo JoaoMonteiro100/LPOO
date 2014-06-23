@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import raiden.logic.Game.Allegiance;
+import raiden.logic.GameConfigurations.Difficulty;
 
 /**
  * Representa o jogador. Contém um contador do boost (apenas pode ter um boost de
@@ -123,6 +124,23 @@ public class Ship extends Entity {
     	if(posY > ySize-dimY) {
     		dy = 0;
     		posY = ySize-dimY;
+    	}
+    }
+    
+    public void collide(Difficulty d) {
+    	switch(d) {
+    		case EASY:
+    			this.HP -= HP/6;
+    			break;
+    		case MEDIUM:
+    			this.HP -= HP/3;
+    			break;
+    		case HARD:
+    			this.HP -= HP;
+    			break;
+    		default:
+    			this.HP -= HP/6;
+    			break;
     	}
     }
 

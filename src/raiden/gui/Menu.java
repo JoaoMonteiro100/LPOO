@@ -122,6 +122,10 @@ public class Menu extends JFrame {
 				case(2):
 					configurations.setDifficulty(Difficulty.HARD);
 					break;
+					
+				default:
+					configurations.setDifficulty(Difficulty.EASY);
+					break;
 				}
 				
 				Display frame = new Display(configurations);
