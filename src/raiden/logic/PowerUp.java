@@ -34,6 +34,8 @@ public abstract class PowerUp {
 		this.sprite = sprite;
 		ImageIcon ii = new ImageIcon(sprite);
 		image = ii.getImage();
+		this.dimX = image.getWidth(null);
+		this.dimY = image.getHeight(null);
 	}
 	
 	public boolean isTaken() {

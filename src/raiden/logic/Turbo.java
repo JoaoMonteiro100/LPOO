@@ -16,8 +16,8 @@ public class Turbo extends PowerUp {
 		this.speedBoost = speedBoost;
 	}
 
-	public void finalize() throws Throwable {
-		super.finalize();
+	public int getSpeedBoost() {
+		return speedBoost;
 	}
 
 }

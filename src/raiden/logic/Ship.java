@@ -67,8 +67,8 @@ public class Ship extends Entity {
 	}
 
 
-	public void acquiredShield(boolean hasShield) {
-		this.hasShield = hasShield;
+	public void acquiredShield() {
+		this.hasShield = true;
 	}
 
 
@@ -77,8 +77,8 @@ public class Ship extends Entity {
 	}
 
 
-	public void acquiredTurbo(boolean hasTurbo) {
-		this.hasTurbo = hasTurbo;
+	public void acquiredTurbo() {
+		this.hasTurbo = true;
 	}
 
 

@@ -15,4 +15,8 @@ public class Health extends PowerUp {
 		super(posX, posY, IMAGE_PATH);
 		this.HP_Increase = HP_increase;
 	}
+	
+	public int HP() {
+		return HP_Increase;
+	}
 }

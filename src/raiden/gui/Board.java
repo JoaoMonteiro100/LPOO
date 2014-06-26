@@ -27,13 +27,17 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import raiden.gui.EndScreen;
+import raiden.logic.Coin;
 import raiden.logic.Enemy;
 import raiden.logic.Game;
+import raiden.logic.Health;
 import raiden.logic.Missile;
 import raiden.logic.Game.Allegiance;
 import raiden.logic.PowerUp;
 import raiden.logic.Projectile;
+import raiden.logic.Shield;
 import raiden.logic.Ship;
+import raiden.logic.Turbo;
 
 public class Board extends JPanel implements ActionListener{
 
@@ -121,8 +125,10 @@ public class Board extends JPanel implements ActionListener{
 	        g2d.setColor(Color.WHITE);
             g2d.drawString("Enemys left: " + game.getMobs().size(), 5, 15);
             g2d.drawString("Player 1 HP: " + game.getPlayer1().getHP(), 5, 35);
+            g2d.drawString("Player 1 Score: " + game.getPlayer1().getScore(), 150, 35);
             if(game.getPlayer2().getPosX() != -1000) {
             	g2d.drawString("Player 2 HP: " + game.getPlayer2().getHP(), 5, 55);
+            	g2d.drawString("Player 2 Score: " + game.getPlayer2().getScore(), 150, 55);
             }
         
         }
@@ -223,6 +229,65 @@ public class Board extends JPanel implements ActionListener{
             }
         }
 
+        //Ship with boost
+        for (int j = 0; j<game.getBoosts().size(); j++) {
+        	if(game.getBoosts().get(j).getSprite() == "C:/xampp/htdocs/LPOO/resources/coin.png") {
+	        	Coin e = (Coin) game.getBoosts().get(j);
+	            Rectangle b = e.getBounds();
+	
+	            if (p1.intersects(b)) {
+	            	game.getPlayer1().increaseScore(e.getScore());
+	                e.take();
+	            }
+	            
+	            if (p2 != null) {
+	            	if (p2.intersects(b)) {
+	                	game.getPlayer2().increaseScore(e.getScore());
+	                    e.take();
+	                }
+	                
+	            }
+        	}
+        	
+        	if(game.getBoosts().get(j).getSprite() == "C:/xampp/htdocs/LPOO/resources/health.png") {
+	        	Health e = (Health) game.getBoosts().get(j);
+	            Rectangle b = e.getBounds();
+	
+	            if (p1.intersects(b)) {
+	            	game.getPlayer1().increaseHP(e.HP());
+	                e.take();
+	            }
+	            
+	            if (p2 != null) {
+	            	if (p2.intersects(b)) {
+	                	game.getPlayer2().increaseHP(e.HP());
+	                    e.take();
+	                }
+	                
+	            }
+        	}
+        	
+        	if(game.getBoosts().get(j).getSprite() == "C:/xampp/htdocs/LPOO/resources/turbo.png") {
+	        	Turbo e = (Turbo) game.getBoosts().get(j);
+	            Rectangle b = e.getBounds();
+	
+	            if (p1.intersects(b)) {
+	            	game.getPlayer1().setSpeed(e.getSpeedBoost());
+	            	game.getPlayer1().acquiredTurbo();
+	                e.take();
+	            }
+	            
+	            if (p2 != null) {
+	            	if (p2.intersects(b)) {
+	                	game.getPlayer2().setSpeed(e.getSpeedBoost());
+	                	game.getPlayer2().acquiredTurbo();
+	                    e.take();
+	                }
+	                
+	            }
+        	}
+        }
+        
        ArrayList<Projectile> ms = game.getPlayer1().getProjectiles();
 
         for (int i = 0; i < ms.size(); i++) {
@@ -270,11 +335,11 @@ public class Board extends JPanel implements ActionListener{
         public void keyReleased(KeyEvent e) {
         	int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_A && key != KeyEvent.VK_RIGHT) {
+            if (key == KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
                 game.getPlayer1().stopHorizontally();
             }
 
-            if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_A) {
+            if (key == KeyEvent.VK_RIGHT && key != KeyEvent.VK_LEFT) {
             	game.getPlayer1().stopHorizontally();
             }
 
@@ -286,7 +351,7 @@ public class Board extends JPanel implements ActionListener{
             	game.getPlayer1().stopVertically();
             }
             
-            if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_A && key != KeyEvent.VK_RIGHT) {
+            if (key == KeyEvent.VK_SPACE && key != KeyEvent.VK_UP && key != KeyEvent.VK_DOWN && key != KeyEvent.VK_LEFT && key != KeyEvent.VK_RIGHT) {
                 shooting1 = false;
             }
             

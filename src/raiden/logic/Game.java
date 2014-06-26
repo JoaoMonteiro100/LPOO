@@ -39,12 +39,11 @@ public class Game {
 		};
 	
 	private int[][] pos_boosts = { 
-	        {560, -45}, {510, -70},
-	        {930, -159}/*, {590, -80}, {530, -70},
+	        /*{590, -80}, {530, -70},
 	        {940, -59},  {990, -30}, {920, -200},
-	        {900, -259}, {660, -50}, {540, -90},
-	        {810, -220}, {860, -20}, {740, -180},
-	        {820, -128}, {490, -170}, {700, -30}*/
+	        {810, -220}, {860, -20}, {740, -180},*/
+	        {500, -850}, {1000, 0}, {1200, -250},
+	        {900, -259}, {660, -50}, {540, -90}
 		};
 	
 	public Game(GameConfigurations gconfigs) {
@@ -86,6 +85,7 @@ public class Game {
         conf = gconfigs;
         
         initEnemies();
+        initBoosts();
 	}
 	
     public void initEnemies() {
@@ -95,8 +95,14 @@ public class Game {
     }
     
     public void initBoosts() {
-        for (int i=0; i<pos_boosts.length; i++ ) {
-        	boosts.add((PowerUp) new Coin(pos[i][0], pos[i][1], 50));
+        for (int i=0; i<3; i++ ) {
+        	boosts.add((PowerUp) new Coin(pos_boosts[i][0], pos_boosts[i][1], 100));
+        }
+        for (int i=3; i<5; i++ ) {
+        	boosts.add((PowerUp) new Health(pos_boosts[i][0], pos_boosts[i][1], 250));
+        }
+        for (int i=5; i<6; i++ ) {
+        	boosts.add((PowerUp) new Turbo(pos_boosts[i][0], pos_boosts[i][1], 3));
         }
     }
 

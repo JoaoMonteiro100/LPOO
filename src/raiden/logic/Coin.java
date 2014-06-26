@@ -16,9 +16,9 @@ public class Coin extends PowerUp {
 		super(posX, posY, IMAGE_PATH);
 		this.scoreIncrease = scoreIncrease;
 	}
-
-	public void finalize() throws Throwable {
-		super.finalize();
+	
+	public int getScore() {
+		return scoreIncrease;
 	}
 
 }

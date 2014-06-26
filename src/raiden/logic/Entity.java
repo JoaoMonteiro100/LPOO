@@ -96,6 +96,14 @@ public abstract class Entity {
 	public void setHP(int hP) {
 		HP = hP;
 	}
+	
+	public void increaseHP(int hP) {
+		HP += hP;
+	}
+	
+	public void decreaseHP(int hP) {
+		HP -= hP;
+	}
 
 	public boolean isDead() {
 		return isDead;
